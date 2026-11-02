@@ -42,8 +42,12 @@ Once the user confirms (or if they explicitly ask to generate the report right a
    ```powershell
    python -m lab_system.report_generator --lab <X>
    ```
-4. Verify the generated screenshots in `reports/Lab_<XX>_<Slug>/screenshots/` using `read_file` and provide clickable links to all generated files in `reports/Lab_<XX>_<Slug>/`:
-   - `Lab_<XX>_<Slug>_Report_534740.docx`
-   - `Lab_<XX>_<Slug>.ipynb`
-   - `Lab_<XX>_<Slug>.py`
-   - Embedded Colab screenshots
+4. Commit and push the generated notebook to GitHub so the Colab link works immediately:
+   ```powershell
+   git add .
+   git commit -m "Add Lab <X> report and Colab notebook"
+   git push origin main
+   ```
+5. Output the 1-Click **Open in Colab** badge:
+   `[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hammad271618/CS-370-Artificial-Intelligence-Labs/blob/main/reports/Lab_<XX>_<Slug>/Lab_<XX>_<Slug>.ipynb)`
+   and provide clickable links to the local files.
