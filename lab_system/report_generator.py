@@ -586,6 +586,19 @@ def generate_lab_bundle(spec: dict) -> dict[str, Path]:
         f"/blob/main/reports/{bundle_dir.name}/{ipynb_path.name}"
     )
 
+    # 1-Click Windows Shortcut file (double-clicking opens directly in Google Colab)
+    url_shortcut_path = bundle_dir / "Open in Google Colab.url"
+    url_shortcut_path.write_text(f"[InternetShortcut]\nURL={colab_url}\n", encoding="utf-8")
+
+    # 1-Click HTML Auto-redirect file
+    html_shortcut_path = bundle_dir / "Open_in_Google_Colab.html"
+    html_shortcut_path.write_text(
+        f'<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url={colab_url}" />'
+        f'<script>window.location.href="{colab_url}";</script></head>'
+        f'<body><p>Redirecting to Google Colab... <a href="{colab_url}">Click here</a></p></body></html>',
+        encoding="utf-8",
+    )
+
     return {
         "bundle_dir": bundle_dir,
         "docx": docx_path,
@@ -593,6 +606,8 @@ def generate_lab_bundle(spec: dict) -> dict[str, Path]:
         "py": py_path,
         "screenshots_dir": screenshots_dir,
         "colab_url": colab_url,
+        "url_shortcut": url_shortcut_path,
+        "html_shortcut": html_shortcut_path,
     }
 
 
