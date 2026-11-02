@@ -362,13 +362,16 @@ def add_data_table(doc: Document, headers: list[str], rows: list[list[str]], tit
                 r.font.color.rgb = RGB_SLATE
 
 
-def export_colab_notebook(spec: dict, executed_tasks: list[dict], out_ipynb: Path):
-    """Export a valid Google Colab / Jupyter .ipynb file with pre-populated outputs."""
+def export_colab_notebook(spec: dict, executed_tasks: list[dict], out_ipynb: Path, bundle_name: str):
+    """Export a valid Google Colab / Jupyter .ipynb file with Open-in-Colab badge."""
+    colab_link = f"https://colab.research.google.com/github/Hammad271618/CS-370-Artificial-Intelligence-Labs/blob/main/reports/{bundle_name}/{out_ipynb.name}"
+
     cells = [
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
+                f"[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]({colab_link})\n\n",
                 f"# CS-370 - Artificial Intelligence\n",
                 f"## Lab # {spec['lab_number']}: {spec['title']}\n",
                 f"**Submitted To:** {spec['student']['submitted_to']}  \n",
@@ -575,8 +578,13 @@ def generate_lab_bundle(spec: dict) -> dict[str, Path]:
     py_path = bundle_dir / f"Lab_{lab_num:02d}_{slug}.py"
 
     doc.save(str(docx_path))
-    export_colab_notebook(spec_resolved, executed_tasks, ipynb_path)
+    export_colab_notebook(spec_resolved, executed_tasks, ipynb_path, bundle_dir.name)
     export_python_script(spec_resolved, executed_tasks, py_path)
+
+    colab_url = (
+        f"https://colab.research.google.com/github/Hammad271618/CS-370-Artificial-Intelligence-Labs"
+        f"/blob/main/reports/{bundle_dir.name}/{ipynb_path.name}"
+    )
 
     return {
         "bundle_dir": bundle_dir,
@@ -584,6 +592,7 @@ def generate_lab_bundle(spec: dict) -> dict[str, Path]:
         "ipynb": ipynb_path,
         "py": py_path,
         "screenshots_dir": screenshots_dir,
+        "colab_url": colab_url,
     }
 
 
